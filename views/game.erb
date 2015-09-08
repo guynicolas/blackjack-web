@@ -1,0 +1,54 @@
+<div id="game">
+  <% if @winner %> 
+     <div class='alert alert-success'><%=@winner%></div>
+  <% elsif @tie %> 
+    <div class='alert alert-warning'><%=@tie%></div>
+  <% elsif @loser %>
+    <div class="alert alert-error"><%=@loser%></div>
+  <% end %>
+
+  <h4>Welcome to BlackJack, <%= session[:player_name]%>.</h4>
+  <% if @play_again %> 
+    <div class='well'>
+      <h5>Would do you like to play again?</h5>
+      <a href="/bet" class="btn btn-primary">Yes</a>
+      <a href="/game_over" class="btn btn-default">No</a>
+    </div>
+  <% end %> 
+
+  <div class='well'>
+    <h4>Dealer's Hand:</h4>
+    <% session[:dealer_cards].each_with_index do |card, i| %>
+      <% if session[:turn] != 'Dealer' && i == 0 %> 
+        <img src="/images/cards/cover.jpg">
+      <% else %> 
+        <%=card_image(card) %>
+      <% end %> 
+    <% end %>
+    <% if @show_dealer_hit_button %> 
+      <form id='dealer_hit' action='/game/dealer/hit' method='post'>
+        <input type='submit' value="Show dealer's new card &rarr;" class='btn btn-primary'>
+      </form>
+      <h4>Dealer's total is <%= calculate_total(session[:dealer_cards])%>.</h4>
+    <% end %> 
+  </div> 
+
+  <div class='well'>
+    <h4><%= session[:player_name]%>'s Hand:</h4>
+    <% session[:player_cards].each do |card| %>
+      <%= card_image(card) %>
+    <% end %> 
+    <h4><%= session[:player_name]%>'s total is <%= calculate_total(session[:player_cards])%>.</h4>
+    <h4><%= session[:player_name]%> has $<%= session[:player_pot]%> and bet $<%= session[:player_bet]%> for this round.</h4>
+  </div>
+
+  <% if @show_hit_or_stay_buttons %> 
+    <p>What would you like to do?</p>
+    <form id='hit_form' action='/game/player/hit' method='post'>
+      <input type='submit' value='Hit' class='btn btn-success'/>
+    </form>
+    <form id='stay_form' action='/game/player/stay' method='post'>
+      <input type='submit' value='Stay' class='btn btn-warning'/>
+    </form>
+  <% end %> 
+</div>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BlackJack</title>
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/application.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="application.js"></script>
+  </head>
+  <body style="padding-top: 50px;">
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+            <ul class="nav">
+              <li><a href="/new_player">Start Over</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+
+  <div class="container">
+    <% if @winner %> 
+      <div class='alert alert-success'><%=@winner%></div>
+    <% elsif @tie %> 
+      <div class='alert alert-warning'><%=@tie%></div>
+    <% elsif @loser %>
+      <div class="alert alert-error"><%=@loser%></div>
+    <% end %>
+      <%= yield %>
+    </div>
+  </body>
+</html>
